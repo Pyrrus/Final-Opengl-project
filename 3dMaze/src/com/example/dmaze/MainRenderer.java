@@ -8,7 +8,6 @@ import android.opengl.GLU;
 import com.example.dmaze.MainSurfaceView;
 import com.example.dmaze.FileOperations;
 
-
 /*
  * MainRenderer.
  * This is the where the all the display at.
@@ -26,7 +25,7 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 		m = Maze;
 		this.context = context;
 
-		//make another save to see it is saving the file right and test
+		// make another save to see it is saving the file right and test
 		// it same from the first one.
 		String filename = "saveMaze";
 		FileOperations fop = new FileOperations();
@@ -41,14 +40,14 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 		fop.write(filename + "Renderer", data);
 	}
 
-	//help with the size of the maze and angles for the moving the screen
+	// help with the size of the maze and angles for the moving the screen
 	public float mAngleX;
 	public float mAngleY;
 	public float size = 10.0f;
 	public float WORLD_SIZE = 200.0f;
 	public float wallSize = WORLD_SIZE / size;
-	
-	//color of the light
+
+	// color of the light
 	float[] colorBlack = { 0.0f, 0.0f, 0.0f, 1.0f };
 	float[] colorWhite = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float[] colorGray = { 0.6f, 0.6f, 0.6f, 1.0f };
@@ -68,7 +67,7 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 
 	// if I using the keyboard I can set the lighting on or off
 	boolean lightingEnabled = false;
-	
+
 	// add the odd lighting for later time
 	private float[] lightDiffuse = { 0.5f, 0.5f, 0.5f, 0.5f };
 	private float[] lightPosition = { 0.0f, 0.0f, 10.0f, 0.5f };
@@ -77,27 +76,27 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 	int minObject = 0;
 	int maxObject = 1; // max of object that need to be made
 
-	//make the size of the well
+	// make the size of the well
 	private final Cube mCube = new Cube(wallSize);
 
-	//make the treasure
+	// make the treasure
 	private final Cube box = new Cube(4);
 
-	//make the floor
+	// make the floor
 	private final floor mFloor = new floor(wallSize, 0.80f, 0.80f, 0.80f, 1.0f);
 
-	//make the water floor
+	// make the water floor
 	private final floor water = new floor(wallSize, 0.439216f, 0.858824f,
 			0.576471f, 1.0f);
 
-	//make acid floor
+	// make acid floor
 	private final floor acid = new floor(wallSize, 0.32f, 0.49f, 0.46f, 1.0f);
 
-	//make the uneven floors
+	// make the uneven floors
 	private final lowerFloor LFloor = new lowerFloor(wallSize, 0.309804f,
 			0.184314f, 0.184314f, 1.0f);
-	
-	//make the uneven floors
+
+	// make the uneven floors
 	private final upperFloor UpFloor = new upperFloor(wallSize, 0.85f, 0.53f,
 			0.10f, 1.0f);
 
@@ -123,14 +122,14 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
 
-		//start point
+		// start point
 		gl.glTranslatef(copx, copy, -z);
 
 		// help moving in 3D
-		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f); 
-		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f); 
+		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
 
-		//display the map
+		// display the map
 		displayMaze(gl);
 
 		angleX += speedX;
@@ -139,23 +138,23 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 	}
 
 	public void displayMaze(GL10 gl) {
-		//set the lighting on
+		// set the lighting on
 		gl.glEnable(GL10.GL_LIGHTING);
 
-		//count how many exit in the world
+		// count how many exit in the world
 		int exit = 0;
-		
+
 		// help with the 3d world
 		float offset = 0.0f;
-		
-		//count how many fire in the world
+
+		// count how many fire in the world
 		int counterFire = 0;
-		
+
 		Random rand = new Random();
 		offset = -(WORLD_SIZE - wallSize) / 2.0f;
 		for (int i = 0; i < maxx; i++) {
 			for (int j = 0; j < maxz; j++) {
-				//set all the light to off
+				// set all the light to off
 				gl.glDisable(GL10.GL_LIGHT2);
 				gl.glDisable(GL10.GL_LIGHT1);
 				gl.glDisable(GL10.GL_LIGHT0);
@@ -164,8 +163,8 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 				gl.glDisable(GL10.GL_LIGHT5);
 				gl.glDisable(GL10.GL_LIGHT6);
 				gl.glDisable(GL10.GL_LIGHT7);
-				if (m[i][j] == 1) { 
-					//wall of the world
+				if (m[i][j] == 1) {
+					// wall of the world
 					gl.glEnable(GL10.GL_LIGHT2);
 					gl.glPushMatrix();
 					gl.glTranslatef(offset + i * wallSize, 0.0f, offset + j
@@ -185,7 +184,7 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 					mCube.draw(gl);
 					gl.glPopMatrix();
 
-				} else if (m[i][j] == 2) { 
+				} else if (m[i][j] == 2) {
 					// lower and upper floor
 					gl.glEnable(GL10.GL_LIGHT0);
 					float spotDirection[] = { offset + i * wallSize, 0.8f,
@@ -213,7 +212,7 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 							* wallSize);
 					UpFloor.draw(gl);
 					gl.glPopMatrix();
-				} else if (m[i][j] == 3) { 
+				} else if (m[i][j] == 3) {
 					// water floor
 					gl.glEnable(GL10.GL_LIGHT3);
 					float spotDirection[] = { offset + i * wallSize, 0.0f,
@@ -232,7 +231,33 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 					gl.glPopMatrix();
 
 				} else if (m[i][j] == 4) {
-					//normal floor
+					// make the exit in the game
+					int randomNum = rand.nextInt((maxObject - minObject) + 1)
+							+ minObject; // give me random number
+					if (exit != 1) {
+						exit += 1;
+						gl.glEnable(GL10.GL_LIGHT7);
+						float spotDirectio4[] = { offset + i * wallSize, 0.0f,
+								offset + j * wallSize };
+						gl.glLightfv(GL10.GL_LIGHT7, GL10.GL_SPOT_DIRECTION,
+								spotDirectio4, 0);
+						gl.glLightfv(GL10.GL_LIGHT7, GL10.GL_AMBIENT,
+								colorLightYellow, 0);
+						gl.glLightfv(GL10.GL_LIGHT7, GL10.GL_SPECULAR,
+								colorWhite, 0);
+						gl.glLightfv(GL10.GL_LIGHT7, GL10.GL_DIFFUSE,
+								colorGold, 0);
+						gl.glLightf(GL10.GL_LIGHT7,
+								GL10.GL_CONSTANT_ATTENUATION, 0.2f);
+						gl.glPushMatrix();
+						gl.glTranslatef(offset + i * wallSize, 0.0f, offset + j
+								* wallSize);
+						box.draw(gl);
+						gl.glPopMatrix();
+
+					}
+
+					// normal floor
 					gl.glEnable(GL10.GL_LIGHT0);
 					float spotDirection[] = { offset + i * wallSize, 0.0f,
 							offset + j * wallSize };
@@ -251,7 +276,7 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 					mFloor.draw(gl);
 					gl.glPopMatrix();
 				} else if (m[i][j] == 5) {
-					//acid floor
+					// acid floor
 					gl.glEnable(GL10.GL_LIGHT5);
 					float spotDirection[] = { offset + i * wallSize, 0.0f,
 							offset + j * wallSize };
@@ -273,7 +298,7 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 				} else if (m[i][j] == 6) {
 					// deep holes
 				} else if (m[i][j] == 7) {
-					//fire trap and normal floor
+					// fire trap and normal floor
 					if (counterFire != 1) {
 						counterFire += 1;
 						gl.glEnable(GL10.GL_LIGHT1);
@@ -334,7 +359,7 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 					mFloor.draw(gl);
 					gl.glPopMatrix();
 				} else if (m[i][j] == 8) {
-					//three Spear trap in a row
+					// three Spear trap in a row
 					gl.glEnable(GL10.GL_LIGHT0);
 					float spotDirection[] = { offset + i * wallSize, 0.0f,
 							offset + j * wallSize };
@@ -516,55 +541,6 @@ public class MainRenderer implements MainSurfaceView.Renderer {
 					mFloor.draw(gl);
 					gl.glPopMatrix();
 				}
-
-				if (m[i][j] != 1 && exit == 0) {
-					// make the exit in the game
-					int randomNum = rand.nextInt((maxObject - minObject) + 1)
-							+ minObject; // give me random number
-
-					if (randomNum == 1) {
-						exit++;
-						gl.glEnable(GL10.GL_LIGHT7);
-						float spotDirectio4[] = { offset + i * wallSize, -5.0f,
-								offset + j * wallSize };
-						gl.glLightfv(GL10.GL_LIGHT7, GL10.GL_SPOT_DIRECTION,
-								spotDirectio4, 0);
-						gl.glLightfv(GL10.GL_LIGHT7, GL10.GL_AMBIENT,
-								colorLightYellow, 0);
-						gl.glLightfv(GL10.GL_LIGHT7, GL10.GL_SPECULAR,
-								colorWhite, 0);
-						gl.glLightfv(GL10.GL_LIGHT7, GL10.GL_DIFFUSE,
-								colorGold, 0);
-						gl.glLightf(GL10.GL_LIGHT7,
-								GL10.GL_CONSTANT_ATTENUATION, 0.2f);
-						gl.glPushMatrix();
-						gl.glTranslatef(offset + i * wallSize, -5.0f, offset
-								+ j * wallSize);
-						box.draw(gl);
-						gl.glPopMatrix();
-
-						gl.glEnable(GL10.GL_LIGHT0);
-						gl.glDisable(GL10.GL_LIGHT7);
-						float spotDirection[] = { offset + i * wallSize, 0.0f,
-								offset + j * wallSize };
-						gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPOT_DIRECTION,
-								spotDirection, 0);
-						gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT,
-								colorLightYellow, 0);
-						gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPECULAR,
-								colorWhite, 0);
-						gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE,
-								colorGray, 0);
-						gl.glLightf(GL10.GL_LIGHT0,
-								GL10.GL_CONSTANT_ATTENUATION, 0.2f);
-						gl.glPushMatrix();
-						gl.glTranslatef(offset + i * wallSize, 0.0f, offset + j
-								* wallSize);
-						mFloor.draw(gl);
-						gl.glPopMatrix();
-					}
-				}
-
 			}
 		}
 
