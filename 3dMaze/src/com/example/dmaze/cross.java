@@ -20,7 +20,14 @@ class cross {
 	   };
 	  
 	   // Constructor - Setup the vertex buffer
-	   public cross() {
+	   public cross(float size) {
+		    float[] vertices2 = {  // Vertices for the square
+				      -2.0f / size, 2.5f / size,  0.0f / size,  // 0. left-bottom
+				       2.0f / size, 2.5f / size,  0.0f / size,  // 1. right-bottom
+				      -2.0f / size,  3.0f / size,  0.0f / size,  // 2. left-top
+				       2.0f / size,  3.0f / size,  0.0f / size   // 3. right-top
+				   };
+		    vertices = vertices2;
 	      // Setup vertex array buffer. Vertices in float. A float has 4 bytes
 	      ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
 	      vbb.order(ByteOrder.nativeOrder()); // Use native byte order

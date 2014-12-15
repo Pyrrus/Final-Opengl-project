@@ -77,14 +77,14 @@ public class MainSurfaceView extends GLSurfaceView {
 			deltaY = currentY - previousY;
 
 			if (deltaY < 0)
-				renderer.z -= 0.2f;
+				renderer.angleX -= 1f;
 			else
-				renderer.z += 0.2f;
+				renderer.angleX += 1f;
 
 			if (deltaX < 0)
-				renderer.angleY -= 0.2f;
+				renderer.angleY -= 1f;
 			else
-				renderer.angleY += 0.2f;
+				renderer.angleY += 1f;
 
 			break;
 

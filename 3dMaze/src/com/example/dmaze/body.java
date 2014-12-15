@@ -20,27 +20,22 @@ class body {
 	private FloatBuffer vertexBuffer;
 	private FloatBuffer texBuffer; // Buffer for texture-coords-array (NEW)
 
-	private float[][] colors = { { 1.0f, 0.0f, 0.0f, 1.0f },
-			{ 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f },
-			{ 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f },
-			{ 1.0f, 0.0f, 0.0f, 1.0f } };
-
-	float[] texCoords = { // Texture coords for the above face (NEW)
-	0.0f, 1.0f, // A. left-bottom (NEW)
-			1.0f, 1.0f, // B. right-bottom (NEW)
-			0.0f, 0.0f, // C. left-top (NEW)
-			1.0f, 0.0f // D. right-top (NEW)
+	float[] texCoords = { // Texture coords for the above face 
+	0.0f, 1.0f, // A. left-bottom 
+			1.0f, 1.0f, // B. right-bottom 
+			0.0f, 0.0f, // C. left-top 
+			1.0f, 0.0f // D. right-top 
 	};
-	int[] textureIDs = new int[1]; // Array for 1 texture-ID (NEW)
+	int[] textureIDs = new int[1]; // Array for 1 texture-ID
 
 	// Constructor - Set up the buffers
-	public body() {
+	public body(float size) {
 
 		float[] vertices = { // Vertices for the front face
-		-0.5f, -1, 0.5f, // 0. left-bottom-front
-				0.5f, -1, 0.5f, // 1. right-bottom-front
-				-0.5f, 4, 0.5f, // 2. left-top-front
-				0.5f, 4, 0.5f // 3. right-top-front
+		-0.5f / size , -1 / size, 0.5f / size, // 0. left-bottom-front
+				0.5f / size, -1 / size, 0.5f / size, // 1. right-bottom-front
+				-0.5f / size, 4 / size, 0.5f / size, // 2. left-top-front
+				0.5f / size, 4 / size, 0.5f / size // 3. right-top-front
 		};
 
 		ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
@@ -49,8 +44,6 @@ class body {
 		vertexBuffer.put(vertices);
 		vertexBuffer.position(0);
 
-		// Setup texture-coords-array buffer, in float. An float has 4 bytes
-		// (NEW)
 		ByteBuffer tbb = ByteBuffer.allocateDirect(texCoords.length * 4);
 		tbb.order(ByteOrder.nativeOrder());
 		texBuffer = tbb.asFloatBuffer();
@@ -72,35 +65,35 @@ class body {
 																// (NEW)
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, texBuffer); // Define
 																// texture-coords
-																// buffer (NEW)
+																// buffer 
 
 		// Front
-		gl.glColor4f(colors[0][0], colors[0][1], colors[0][2], colors[0][3]);
+		
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
 
 		// Right - Rotate 90 degree about y-axis
 		gl.glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-		gl.glColor4f(colors[1][0], colors[1][1], colors[1][2], colors[1][3]);
+
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
 
 		// Back - Rotate another 90 degree about y-axis
 		gl.glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-		gl.glColor4f(colors[2][0], colors[2][1], colors[2][2], colors[2][3]);
+		
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
 
 		// Left - Rotate another 90 degree about y-axis
 		gl.glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-		gl.glColor4f(colors[3][0], colors[3][1], colors[3][2], colors[3][3]);
+
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
 
 		// Bottom - Rotate 90 degree about x-axis
 		gl.glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-		gl.glColor4f(colors[4][0], colors[4][1], colors[4][2], colors[4][3]);
+		
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
 
 		// Top - Rotate another 180 degree about x-axis
 		gl.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-		gl.glColor4f(colors[5][0], colors[5][1], colors[5][2], colors[5][3]);
+	
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
 
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);

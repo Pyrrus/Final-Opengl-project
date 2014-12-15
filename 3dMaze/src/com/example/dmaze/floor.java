@@ -29,9 +29,11 @@ public class floor {
 	public floor(float size, float redData, float blueData, float greenData,
 			float opacityData) {
 		float[] verticesHolder = { // Vertices for the square
-		-size / 2, -size / 2, size / 2, size / 2, -size / 2, size / 2,
-				size / 2, -size / 2, -size / 2, -size / 2, -size / 2,
-				-size / 2, -size / 2, -size / 2, size / 2, };
+				-size / 2, -size / 2,  0.0f,  // 0. left-bottom
+				size / 2, -size / 2,  0.0f,  // 1. right-bottom
+			      -size / 2,  size / 2,  0.0f,  // 2. left-top
+			      size / 2,  size / 2,  0.0f   // 3. right-top 
+			       };
 		vertices = verticesHolder;
 		red = redData;
 		green = greenData;

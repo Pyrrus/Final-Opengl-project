@@ -22,8 +22,7 @@ public class Spear {
 			0.0f, 8.0f, 0.0f // 4. top
 	};
 
-	private float[] colors = { 0.0f, 1.0f, 0.0f, 1.0f, // 3. green
-	};
+
 
 	private byte[] indices = { // Vertex indices of the 4 Triangles
 	2, 4, 3, // front face (CCW)
@@ -31,22 +30,34 @@ public class Spear {
 			0, 4, 1, // back face
 			4, 0, 3 // left face
 	};
-
+	
+	private float[] colors = {  
+		      0.0f, 0.0f, 1.0f, 1.0f, 
+		   };
+	
 	// Constructor - setup with spear
-	public Spear() {
+	public Spear(float size) {
 
+		float[] vertices2 = { // 5 vertices of the pyramid in (x,y,z)
+				-1.0f / size, -1.0f / size, -1.0f / size, // 0. left-bottom-back
+						1.0f / size, -1.0f / size, -1.0f / size, // 1. right-bottom-back
+						1.0f / size, 1.0f / size, -1.0f / size, // 2. right-bottom-front
+						-1.0f / size, -1.0f / size, 1.0f / size, // 3. left-bottom-front
+						0.0f, 0, 8.0f / size // 4. top
+				};
+		 vertices = vertices2;
 		ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
 		vbb.order(ByteOrder.nativeOrder()); // Use native byte order
 		vertexBuffer = vbb.asFloatBuffer(); // Convert from byte to float
 		vertexBuffer.put(vertices); // Copy data into buffer
 		vertexBuffer.position(0); // Rewind
 
+		
 		ByteBuffer cbb = ByteBuffer.allocateDirect(colors.length * 4);
-		cbb.order(ByteOrder.nativeOrder());
-		colorBuffer = cbb.asFloatBuffer();
-		colorBuffer.put(colors);
-		colorBuffer.position(0);
-
+	      cbb.order(ByteOrder.nativeOrder());
+	      colorBuffer = cbb.asFloatBuffer();
+	      colorBuffer.put(colors);
+	      colorBuffer.position(0);
 		indexBuffer = ByteBuffer.allocateDirect(indices.length);
 		indexBuffer.put(indices);
 		indexBuffer.position(0);
