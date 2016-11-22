@@ -1,6 +1,6 @@
 # 3D maze for Adam Gorbahn's senior project
 
-## This app wil make 3d maze using opengl and java  11/4/16
+## This app wil make 3d maze using opengl and java  11/22/16
 
 #### By **Adam Gorbahn**
 
